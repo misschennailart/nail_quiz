@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陳姓女子 | 專屬美甲風格測驗</title>
+    <style>
+        /* 基礎設定 - 灰白色調專業時尚 */
+        :root {
+            --bg-color: #FAFAFA;
+            --container-bg: #FFFFFF;
+            --text-main: #333333;
+            --text-light: #777777;
+            --border-color: #E0E0E0;
+            --accent-color: #9E9E9E;
+            --hover-bg: #F0F0F0;
+            --booking-btn-bg: #333333;
+            --booking-btn-text: #FFFFFF;
+        }
+
+        body {
+            font-family: "PingFang TC", "Heiti TC", "Microsoft JhengHei", "Helvetica Neue", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* 測驗主容器 */
+        .quiz-container {
+            background-color: var(--container-bg);
+            max-width: 500px;
+            width: 100%;
+            padding: 50px 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        h1, h2 {
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* 按鈕基礎樣式 */
+        .btn {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            width: 100%;
+            margin-bottom: 15px;
+            text-decoration: none;
+            display: inline-block;
+            box-sizing: border-box;
+        }
+
+        .btn:hover {
+            background-color: var(--text-main);
+            color: #FFFFFF;
+        }
+
+        /* 特殊：預約按鈕樣式 */
+        .booking-btn {
+            background-color: var(--booking-btn-bg);
+            color: var(--booking-btn-text);
+            border: none;
+        }
+
+        .booking-btn:hover {
+            background-color: #555555;
+        }
+
+        /* 選項按鈕樣式 */
+        .option-btn {
+            text-align: left;
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            border-radius: 2px;
+            line-height: 1.5;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent-color);
+            background-color: var(--hover-bg);
+            color: var(--text-main);
+        }
+
+        /* 返回按鈕樣式 */
+        .back-btn {
+            background-color: transparent;
+            color: var(--text-light);
+            border: none;
+            text-decoration: underline;
+            padding: 10px;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: var(--text-main);
+        }
+
+        /* 隱藏區塊 */
+        .hidden {
+            display: none !important;
+        }
+
+        /* 結果頁特別排版 */
+        .result-box {
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 30px 0;
+            margin: 30px 0;
+        }
+
+        .result-title {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .result-package {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .result-details {
+            font-size: 15px;
+            line-height: 1.8;
+            text-align: left;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Footer 著作權聲明 */
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 11px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div id="welcome-screen">
+            <h1>《陳姓女子自由發揮系列》</h1>
+            <p>美甲選擇障礙發作？<br>花 1 分鐘完成測驗，找出此刻最適合妳的命定款式。</p>
+            <button class="btnStartQuiz" onclick="startQuiz()" style="background-color: var(--text-main); color: white; border: none; padding: 12px 24px; cursor: pointer; border-radius: 2px; letter-spacing: 1px; width: 100%;">開始測驗</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <h2 id="question-title">問題 1/6</h2>
+            <p id="question-text">載入中...</p>
+            <div id="options-container">
+                </div>
+            <button id="back-btn" class="back-btn" onclick="goBack()">← 上一題</button>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <h2>專屬美甲處方籤</h2>
+            <p>根據妳的心境與喜好，我們為妳調配了以下方案：</p>
+            
+            <div class="result-box">
+                <div class="result-title">推薦方案</div>
+                <div id="final-package" class="result-package">A | 日常設計 (6指造型＋4指單色).........1200.-</div>
+                <div id="final-details" class="result-details">
+                    </div>
+            </div>
+
+            <p style="font-size: 13px;">*皆含基礎保養，準備好把雙手交給陳姓女子了嗎？</p>
+            <a href="https://lin.ee/IvGqurY" target="_blank" class="btn booking-btn">點此預約</a>
+            <button class="btn" style="border: none; margin-top: 10px; text-decoration: underline;" onclick="resetQuiz()">再測一次</button>
+        </div>
+
+        <footer class="footer">
+            <p>© 2026 陳姓女子美甲工作室 版權所有</p>
+            <p>IG: miss.chen_nail.art</p>
+        </footer>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "未來一個月，妳的行事曆上最亮眼的行程是？",
+                options: [
+                    { text: "辦公室生存戰／重要會議", style: "簡約氣質、裸色系" },
+                    { text: "浪漫約會／參加朋友婚禮", style: "仙女款式、法式微光" },
+                    { text: "閨蜜聚會／狂歡派對", style: "甜酷辣妹、搶眼造型" },
+                    { text: "說走就走的放鬆旅行／純粹日常", style: "日系可愛、休閒百搭" }
+                ]
+            },
+            {
+                question: "打開衣櫃，哪種風格的衣服佔據了最大版面？",
+                options: [
+                    { text: "溫柔小姊姊 (針織衫、飄逸裙裝)", style: "氣質優雅" },
+                    { text: "慵懶日雜風 (寬鬆層次、大地色)", style: "文青質感" },
+                    { text: "極簡質感系 (黑白灰、俐落剪裁)", style: "極簡時尚" },
+                    { text: "個性時髦精 (街頭風、Y2K元素)", style: "個性強烈" }
+                ]
+            },
+            {
+                question: "這次來找陳姓女子，想讓她在妳的指尖施展多少魔法呢？",
+                options: [
+                    { text: "剛剛好的精緻，幾指有重點就好", package: "A | 日常設計 (6指造型＋4指單色).........1200.-" },
+                    { text: "想要一點與眾不同，偷偷升級質感", package: "B | 質感設計 (6指造型＋4指特殊色).........1400.-" },
+                    { text: "小孩子才做選擇，十指都要滿滿藝術感", package: "C | 全創作設計 (10指造型設計).........1800.-" }
+                ]
+            },
+            {
+                question: "直覺選一個能代表妳現在心情的色系？",
+                options: [
+                    { text: "溫暖大地 / 奶茶裸粉", color: "溫暖大地 / 奶茶裸粉" },
+                    { text: "清透水波 / 仙氣冰透", color: "清透水波 / 仙氣冰透" },
+                    { text: "神秘深邃 / 個性撞色", color: "神秘深邃 / 個性撞色" },
+                    { text: "閃耀金屬 / 碎鑽星河", color: "閃耀金屬 / 碎鑽星河" }
+                ]
+            },
+            {
+                question: "偷偷許個願，最近最想提升哪方面的運氣？",
+                options: [
+                    // 在這裡把推薦顏色的括號內容加回去
+                    { text: "桃花朵朵開 / 好人緣爆棚", luck: "桃花好人緣 (推薦玫瑰粉、蜜桃色、溫柔腮紅甲)" },
+                    { text: "財富滾滾來 / 事業大升官", luck: "財運與事業 (推薦帶金元素、氣場酒紅、質感貓眼)" },
+                    { text: "擋煞防小人 / 平靜安穩度日", luck: "平靜安穩 (推薦寧靜藍、沉穩灰黑、簡約低調款)" },
+                    { text: "靈感大爆發 / 充滿正能量", luck: "靈感正能量 (推薦活力黃橘、特殊跳色、清新綠色系)" }
+                ]
+            },
+            {
+                question: "最後一步！對於指甲上的小細節，妳對哪種元素最毫無抵抗力？",
+                options: [
+                    // 這裡也順便把具體元素的括號內容加進結果
+                    { text: "閃閃惹人愛 (貼鑽、珍珠、水波紋)", detail: "閃耀元素 (貼鑽、珍珠、鏡面水波紋)" },
+                    { text: "質感漸層控 (柔和暈染、腮紅漸層)", detail: "漸層暈染 (柔和暈染、腮紅漸層、經典法式)" },
+                    { text: "立體療癒系 (立體膠、手繪小花)", detail: "立體手繪 (胖胖立體膠、日系手繪小花、毛衣紋)" },
+                    { text: "越簡單越好 (純粹顏色與極致光澤)", detail: "純粹極簡 (單色、極致光澤)" }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userChoices = { style: "", package: "", color: "", luck: "", detail: "" };
+
+        function startQuiz() {
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-title').innerText = `問題 ${currentQuestion + 1} / ${questions.length}`;
+            document.getElementById('question-text').innerText = q.question;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = ''; 
+
+            q.options.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn option-btn';
+                btn.innerText = opt.text;
+                btn.onclick = () => selectOption(opt);
+                optionsContainer.appendChild(btn);
+            });
+
+            // 判斷按鈕文字
+            const backBtn = document.getElementById('back-btn');
+            if (currentQuestion === 0) {
+                backBtn.innerText = "← 回到首頁";
+            } else {
+                backBtn.innerText = "← 上一題";
+            }
+        }
+
+        function selectOption(option) {
+            if (currentQuestion === 0) userChoices.style = option.style;
+            if (currentQuestion === 2) userChoices.package = option.package;
+            if (currentQuestion === 3) userChoices.color = option.color;
+            if (currentQuestion === 4) userChoices.luck = option.luck;
+            if (currentQuestion === 5) userChoices.detail = option.detail;
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function goBack() {
+            if (currentQuestion > 0) {
+                currentQuestion--; 
+                showQuestion();    
+            } else {
+                document.getElementById('quiz-screen').classList.add('hidden');
+                document.getElementById('welcome-screen').classList.remove('hidden');
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            const finalPackage = userChoices.package || "A | 日常設計 (6指造型＋4指單色).........1200.-";
+            
+            document.getElementById('final-package').innerText = finalPackage;
+            document.getElementById('final-details').innerHTML = `
+                <strong>風格建議：</strong>${userChoices.style}<br>
+                <strong>偏好元素：</strong>${userChoices.detail}<br>
+                <strong>命定色系：</strong>${userChoices.color}<br>
+                <strong>能量加持：</strong>${userChoices.luck}
+            `;
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            userChoices = { style: "", package: "", color: "", luck: "", detail: "" };
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('welcome-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
